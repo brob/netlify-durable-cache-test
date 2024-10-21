@@ -1,6 +1,6 @@
 import { Config, Context } from "@netlify/functions";
 
-export const handler = async (req: Request, context: Context) => {
+export default async (req: Request, context: Context) => {
   // context.params is not defined
   const { city, country } = context.params;
 
