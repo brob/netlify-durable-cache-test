@@ -14,18 +14,16 @@ export default async (req: Request, context: Context) => {
 
   const { slug } = context.params;
   const cat = await getCat();
-  console.log(headers)
+  // console.log(headers)
 
   const response = new Response(JSON.stringify({
     cat,
     slug
   }), {
-    headers: {
-      "content-type": "application/json",
-      ...headers
-    }
+    
+    headers
   });
-
+  console.log(response)
   return response;
 };
 
