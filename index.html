@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Info</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold mb-4">Cat Info</h1>
+        <div class="mb-4">
+            <label for="catName" class="block text-gray-700">Cat Name</label>
+            <input type="text" id="catName" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+        </div>
+        <button id="searchBtn" class="bg-indigo-500 text-white px-4 py-2 rounded-md hover:bg-indigo-600">Search</button>
+        <div id="catInfo" class="mt-4 hidden">
+            <h2 class="text-xl font-semibold" id="catNameDisplay"></h2>
+            <p id="catBreed" class="text-gray-700"></p>
+            <img id="catImage" class="mt-4 rounded-md shadow-md" alt="Cat Image">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchBtn').addEventListener('click', async () => {
+            const catName = document.getElementById('catName').value;
+            if (!catName) return;
+            console.log({catName})
+            const response = await fetch(`/api/demo/${catName}`);
+            const data = await response.json();
+            console.log({data})
+            document.getElementById('catNameDisplay').textContent = data.slug;
+            document.getElementById('catBreed').textContent = data.cat.breed ? `Breed: ${data.cat.breed}` : 'Breed: Unknown';
+            document.getElementById('catImage').src = data.cat.url;
+            document.getElementById('catInfo').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
