@@ -21,7 +21,8 @@ export default async (req: Request, context: Context) => {
     slug
   }), {
     headers: {
-      "content-type": "application/json"
+      "content-type": "application/json",
+      ...headers
     }
   });
 
