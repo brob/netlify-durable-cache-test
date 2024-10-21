@@ -1,5 +1,6 @@
 import { Config, Context } from "@netlify/functions";
 import { CacheHeaders } from "cdn-cache-control";
+import etag from "etag";
 
 
 async function getCat() {
@@ -10,20 +11,20 @@ async function getCat() {
 
 
 export default async (req: Request, context: Context) => {
-  const headers = new CacheHeaders().immutable();
 
   const { slug } = context.params;
   const cat = await getCat();
-  // console.log(headers)
+  const headers = new CacheHeaders({  
+    "etag": etag(JSON.stringify(cat)),
+  }).tag("cats", "cat-" + slug).immutable();
 
+  console.log(headers)
   const response = new Response(JSON.stringify({
     cat,
     slug
   }), {
-    
     headers
   });
-  console.log(response)
   return response;
 };
 
