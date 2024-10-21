@@ -14,7 +14,7 @@ export default async (req: Request, context: Context) => {
 
   const { slug } = context.params;
   const cat = await getCat();
-  console.log(cat)
+  console.log(headers)
 
   const response = new Response(JSON.stringify({
     cat,
