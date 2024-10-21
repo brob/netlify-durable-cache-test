@@ -10,7 +10,7 @@ async function getCat() {
 
 
 export default async (req: Request, context: Context) => {
-  const headers = new CacheHeaders();
+  const headers = new CacheHeaders().immutable();
 
   const { slug } = context.params;
   const cat = await getCat();
