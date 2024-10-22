@@ -3,17 +3,17 @@ import { CacheHeaders } from "cdn-cache-control";
 import etag from "etag";
 
 
-async function getCat() {
-  const response = await fetch('https://api.thecatapi.com/v1/images/search');
-  const data = await response.json();
-  return data[0];
+async function getString() {
+  // random string generator
+  return Math.random().toString(36).substring(7);
+  
 }
 
 
 export default async (req: Request, context: Context) => {
 
   const { slug } = context.params;
-  const cat = await getCat();
+  const cat = await getString();
   const headers = new CacheHeaders().immutable();
 
   console.log(headers)
@@ -27,5 +27,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: "/api/demo/:slug"
+  path: "/api/random/:slug"
 };
