@@ -13,10 +13,7 @@ async function fetchData() {
 
 function start () {
     fetchData();
-    setInterval(fetchData, 9000); // 60000 milliseconds = 60 seconds
+    setInterval(fetchData, 4000); 
 
 }
-
-
-// Initial fetch to start the process immediately
 start();

@@ -3,23 +3,28 @@ import { CacheHeaders } from "cdn-cache-control";
 import etag from "etag";
 
 
-async function getCat() {
-  const response = await fetch('https://api.thecatapi.com/v1/images/search');
+async function getArticles(username: string) {
+
+  await new Promise(resolve => setTimeout(resolve, 2000));
+  const response = await fetch('https://www.federatethis.com/api/devto/articles/brob');
   const data = await response.json();
-  return data[0];
+  return data;
+  
 }
 
 
 export default async (req: Request, context: Context) => {
 
-  const { slug } = context.params;
-  const cat = await getCat();
-  const headers = new CacheHeaders().immutable();
+  const { username } = context.params;
+  const articles = await getArticles(username);
+  const headers = new CacheHeaders({
+    "etag": etag(JSON.stringify(articles)),
+  }).tag("articles", "articles-" + username);
 
   console.log(headers)
   const response = new Response(JSON.stringify({
-    cat,
-    slug
+    articles,
+    username
   }), {
     headers
   });
@@ -27,5 +32,5 @@ export default async (req: Request, context: Context) => {
 };
 
 export const config: Config = {
-  path: "/api/demo/:slug"
+  path: "/api/demo/:username"
 };
