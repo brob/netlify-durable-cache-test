@@ -15,14 +15,13 @@ async function getArticles(username: string) {
 
 
 export default async (req: Request, context: Context) => {
-
   const { username } = context.params;
   const articles = await getArticles(username);
+  
   const headers = new CacheHeaders({
     "etag": etag(JSON.stringify(articles)),
   }).tag("articles", "articles-" + username);
 
-  console.log(headers)
   const response = new Response(JSON.stringify({
     articles,
     username
